@@ -1,0 +1,180 @@
+/*  HackerRank solutions    */
+
+/*Given a square matrix of size N*N, calculate the absolute difference between the sums of its diagonals.
+
+Input Format:
+The first line contains a single integer N,The next N lines denote the matrix's rows, with each line containing space-separated integers describing the columns.
+Output Format:
+Print the absolute difference between the two sums of the matrix's diagonals as a single integer.
+
+Sample Input:
+3
+11 2 4
+4 5 6
+10 8 -12
+
+Sample Output
+15
+
+Explanation
+The primary diagonal is: 
+11
+      5
+            -12
+Sum across the primary diagonal: 11 + 5 - 12 = 4 
+The secondary diagonal is:
+            4
+      5
+10
+Sum across the secondary diagonal: 4 + 5 + 10 = 19 
+Difference: |4 - 19| = 15
+
+public class Solution {
+    
+    /* Calculate the sum of the diagonals */
+    public static int getDiagonalSum(int[][] matrix, boolean alternate) {
+        if (matrix.length != matrix[0].length) {  //error case
+            return Integer.MIN_VALUE;
+        }
+        int length = matrix.length;
+        int column = alternate ? length - 1 : 0;
+        int sum = 0;
+        for (int row = 0; row < length; row++) {
+            sum += matrix[row][column];
+            /* Based on the diagonal to be processed */
+            column = alternate ? column - 1 : column + 1;
+        }
+        return sum;
+    }
+    
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int a[][] = new int[n][n];
+        for(int a_i=0; a_i < n; a_i++){
+            for(int a_j=0; a_j < n; a_j++){
+                a[a_i][a_j] = in.nextInt();
+            }
+        }
+        System.out.print(Math.abs(getDiagonalSum(a, false) - getDiagonalSum(a, true)));
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------
+
+Given an array of integers, calculate which fraction of its elements are positive,
+ which fraction of its elements are negative, and which fraction of its elements are zeroes, respectively. 
+ Print the decimal value of each fraction on a new line.
+
+ Note: This challenge introduces precision problems. 
+ The test cases are scaled to six decimal places, though answers with absolute error of up to 10 power -4 are acceptable.
+
+ Input Format:
+The first line contains an integer N,Denoting the size of the array. 
+The second line contains N space-separated integers describing an array of numbers (a0,a1-----an).
+
+Output Format:
+You must print the following 3 lines:
+1. A decimal representing of the fraction of positive numbers in the array.
+2. A decimal representing of the fraction of negative numbers in the array.
+3. A decimal representing of the fraction of zeroes in the array.
+
+Sample Input
+6
+-4 3 -9 0 4 1         
+Sample Output
+0.500000
+0.333333
+0.166667
+
+Explanation:
+There are positive numbers, negative numbers, and zero in the array. 
+The respective fractions of positive numbers, negative numbers and zeroes are 3/6 = 0.500000, 2/6 =0.333333, 1/6 = 0.166667 respectively. 
+
+
+
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+        
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int size = in.nextInt();
+        int arr[] = new int[size];
+     
+         /* Count instances of +/-/0 */
+        double positives = 0;
+        double negatives = 0;
+        double zeroes    = 0;
+        for (int i = 0; i < size; i++) {
+            int value = in.nextInt();
+            if (value > 0) {
+                positives++;
+            } else if (value < 0) {
+                negatives++;
+            } else {
+                zeroes++;
+            }
+        }
+        in.close();
+        
+        /* Print ratios */
+        System.out.println(positives / size);
+        System.out.println(negatives / size);
+        System.out.println(zeroes / size);
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------
+
+Sample Input
+6 
+Sample Output
+     #
+    ##
+   ###
+  ####
+ #####
+######
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int size = in.nextInt();
+            //Written by me without any refernce //
+       
+        int spaceSize=size,k=6;
+         
+        for(int i=1;i<=size;i++) {
+             
+            for(int m=1;m<spaceSize;m++)   //this loop for spaces,Everytime it adds space till its condition is not met and after loop spaceSize-- for next run. //
+              spaceSize--;
+            
+           for(int j=6;j>=k;j--) {      //This loop for "#",This loop is reached after all spaces has been added by previous loop.//  
+               System.out.print("#");
+           }   
+            System.out.println("");   //After succesful addition of "#",In order to move to next line we use S.o.pln("") and k-- for every iteration. //
+              k--;
+          }
+    }
+}
+
+  ALTERNATE
+  
+  public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        for(int i = 1; i<=n; i++){
+            String spaces = new String(new char[n-i]).replace('\0', ' ');
+            String output = new String(new char[i]).replace('\0', '#');
+            System.out.println(spaces + output);
+        }
+    }
+
+==============================================================================================================================
