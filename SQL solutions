@@ -1,0 +1,20 @@
+--Basic Join:
+--All the code is in Oracle SQl.
+
+--Activity: Contest Leaderboard
+/*
+Enter your query here.
+Please append a semicolon ";" at the end of the query and enter your query in a single line to avoid error.
+*/
+--final join query, also ordering and filtering whose hackers with zero score
+SELECT DataSet.HACKER_ID, H.NAME, DataSet.Score FROM HACKERS H
+JOIN (SELECT HACKER_ID, SUM(SCORE) Score FROM (
+--below query will take the data provided by it's sub-query and filter only records with rank 1(i.e., it will only top score sumission of each activity of each hacker)
+SELECT DISTINCT HACKER_ID, CHALLENGE_ID, SCORE, Rank FROM (
+--Job of the below sub query to rank each submission by each hacker
+SELECT HACKER_ID, CHALLENGE_ID, SCORE, DENSE_RANK() OVER(PARTITION BY HACKER_ID,CHALLENGE_ID ORDER BY SCORE DESC, CHALLENGE_ID DESC) Rank
+FROM SUBMISSIONS) 
+WHERE Rank=1)GROUP BY HACKER_ID) DataSet
+ON DataSet.HACKER_ID= H.HACKER_ID
+WHERE Score>0
+ORDER BY Score DESC, HACKER_ID ASC;
