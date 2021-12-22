@@ -18,3 +18,13 @@ WHERE Rank=1)GROUP BY HACKER_ID) DataSet
 ON DataSet.HACKER_ID= H.HACKER_ID
 WHERE Score>0
 ORDER BY Score DESC, HACKER_ID ASC;
+
+-------------------------------------------------------------------------------------------------------------
+--ACTOVITY: 15 days of LEARNING SQL
+
+SELECT SAMP2.SUBMISSION_DATE SUB_DATE,( SELECT count(count(hacker_id)) FROM (select distinct submission_date, hacker_id from submissions) WHERE submission_date <= SAMP2.submission_date HAVING COUNT (1) = (select (SAMP2.submission_date - min(submission_date))+1 from submissions) GROUP BY hacker_id) HCNT ,HACKER_ID, (SELECT NAME FROM HACKERS WHERE HACKER_ID=SAMP2.HACKER_ID) HNAME FROM (
+    (SELECT ROW_NUMBER() OVER(PARTITION BY SUBMISSION_DATE ORDER BY CNT DESC, HACKER_ID) rnum, SAMPLE1.* FROM
+        (SELECT SUBMISSION_DATE, HACKER_ID, COUNT(HACKER_ID) CNT
+        FROM SUBMISSIONS
+        GROUP BY SUBMISSION_DATE, HACKER_ID
+        ORDER BY SUBMISSION_DATE ASC, COUNT(HACKER_ID) DESC) SAMPLE1) SAMP2) WHERE RNUM=1; 
