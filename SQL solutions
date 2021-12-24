@@ -44,4 +44,15 @@ FROM(
         group by t1.ID
         having count(t1.id) = 2    --further filtering with getting only recs we got from join above by only taking recs with count 2(occured twice, i.e., only those numbers who were divisbl by 1 and divisble by itself)
         order by t1.ID);
+----------------------------------------------------------------------------------------------------------
+--ACTIVITY: Binary Tree Nodes
+Print whether mentioned node is a node, branch or root
+
+SELECT CASE
+	WHEN P IS NULL THEN CONCAT(N, ' Root')
+	WHEN N IN (SELECT DISTINCT P FROM BST) THEN CONCAT(N, ' Inner')
+	ELSE CONCAT(N, ' Leaf')
+	END
+FROM BST
+ORDER BY N ASC
 
