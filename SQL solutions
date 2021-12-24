@@ -28,3 +28,20 @@ SELECT SAMP2.SUBMISSION_DATE SUB_DATE,( SELECT count(count(hacker_id)) FROM (sel
         FROM SUBMISSIONS
         GROUP BY SUBMISSION_DATE, HACKER_ID
         ORDER BY SUBMISSION_DATE ASC, COUNT(HACKER_ID) DESC) SAMPLE1) SAMP2) WHERE RNUM=1; 
+        
+-------------------------------------------------------------------------------------------------------------
+--ACTIVITY: PRIME NUMBERS IN SQL
+
+--Function to generate sequence of numbers till 1000
+WITH tmp(id)
+as (
+      select level  id from dual connect by level <= 1000
+)
+SELECT LISTAGG(Primes,'&') WITHIN GROUP(ORDER BY Primes) AS Final  --LISTAGG takes all the column data and lists in a single row with delimiter mentioned
+FROM(
+        select t1.id Primes 
+        from tmp t1 JOIN tmp t2 on MOD(t1.id, t2.id) = 0  --using the function above to call table as t1 and t2 and using join and mod to calucalate remainder and get only recs with reminder 0(completely divisible).
+        group by t1.ID
+        having count(t1.id) = 2    --further filtering with getting only recs we got from join above by only taking recs with count 2(occured twice, i.e., only those numbers who were divisbl by 1 and divisble by itself)
+        order by t1.ID);
+
