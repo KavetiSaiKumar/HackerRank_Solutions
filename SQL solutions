@@ -54,5 +54,10 @@ SELECT CASE
 	ELSE CONCAT(N, ' Leaf')
 	END
 FROM BST
-ORDER BY N ASC
+ORDER BY N ASC;
 
+----------------------------------------------------------------------------------------------------------
+Activity: Aggregation
+
+SELECT COUNT(NAME) FROM CITY
+WHERE POPULATION> 100000;
